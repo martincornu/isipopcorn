@@ -4,10 +4,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <fragment
-        android:name="com.alcedo.marty.isipopcorn.fragments.DetailsFragment"
-        android:id="@+id/detailsFragment"
+    <TextView
+        android:id="@+id/detailsTextView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
+        android:layout_height="wrap_content"
+        android:text="TextView" />
 </LinearLayout>
