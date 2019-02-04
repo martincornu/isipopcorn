@@ -39,6 +39,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         mRealisatorDataset = myRealisatorDataset;
     }
 
+    public void setmDataset(String[] mDataset) {
+        this.mDataset = mDataset;
+        notifyDataSetChanged();
+    }
+
     // Create new views (invoked by the layout manager)
     @Override
     public MovieAdapter.MovieViewHolder onCreateViewHolder(ViewGroup parent,
@@ -57,7 +62,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         // - replace the contents of the view with that element
         holder.mTitleTextView.setText(mDataset[position]);
         holder.mRealisatorTextView.setText(mRealisatorDataset[position]);
-
     }
 
     // Return the size of your dataset (invoked by the layout manager)
