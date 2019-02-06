@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alcedo.marty.isipopcorn.MovieShowtime;
 import com.alcedo.marty.isipopcorn.R;
 
 import java.util.ArrayList;
@@ -16,8 +17,8 @@ import java.util.List;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
-    protected ArrayList<String> mDataset;
-    protected ArrayList<String> mRealisatorDataset;
+
+    protected List<MovieShowtime> mMovies;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -37,13 +38,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MovieAdapter(ArrayList<String> myDataset, ArrayList<String> myRealisatorDataset) {
-        mDataset = myDataset;
-        mRealisatorDataset = myRealisatorDataset;
+    public MovieAdapter(List<MovieShowtime> moviesDataList) {
+        mMovies = moviesDataList;
     }
 
-    public void setmDataset(ArrayList<String> mDataset) {
-        this.mDataset = mDataset;
+    public void setmMovies(List<MovieShowtime> mMovies) {
+        this.mMovies = mMovies;
         notifyDataSetChanged();
     }
 
@@ -63,13 +63,13 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     public void onBindViewHolder(MovieViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.mTitleTextView.setText(mDataset.get(position));
-        holder.mRealisatorTextView.setText(mRealisatorDataset.get(position));
+        holder.mTitleTextView.setText(mMovies.get(position).getOnShow().getMovie().getTitle());
+        holder.mRealisatorTextView.setText(mMovies.get(position).getOnShow().getMovie().getCastingShort().getDirectors());
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return mDataset.size();
+        return mMovies.size();
     }
 }

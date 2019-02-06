@@ -18,6 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alcedo.marty.isipopcorn.adapter.MovieAdapter;
+import com.alcedo.marty.isipopcorn.model.MoviesList;
+import com.alcedo.marty.isipopcorn.network.RetrofitInstance;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,55 +32,48 @@ public class MainActivity extends AppCompatActivity {
     protected ArrayList<String> myDataset = new ArrayList<String>();
     protected ArrayList<String> myRealisatorDataset = new ArrayList<String>();
 
+    protected MoviesList movies = new MoviesList();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-       Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://etudiants.openium.fr/pam/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        /*Create handle for the RetrofitInstance interface*/
+        JsonPlaceHolderApi jsonPlaceHolderApi = RetrofitInstance.getRetrofitInstance().create(JsonPlaceHolderApi.class);
 
-        JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
-
+        /*Call the method in the interface to get the movies data*/
         Call<InitialObject> call = jsonPlaceHolderApi.getInitialObject();
+
         call.enqueue(new Callback<InitialObject>() {
+
             @Override
             public void onResponse(Call<InitialObject> call, Response<InitialObject> response) {
+                movies.setMoviesArrayList(response.body().getMovieShowtimeList());
+                generateMoviesList(movies.getMoviesList());
+            }
 
-                if (!response.isSuccessful()) {
-                    myDataset.set(0, "probleme");
-                    return;
-                }
-                List<MovieShowtime> movieShowtimes = response.body().getMovieShowtimeList();
-                int i = 0;
-               for (MovieShowtime movieShowtime : movieShowtimes) {
-                   myDataset.add(movieShowtime.getOnShow().getMovie().getTitle());
-                   myRealisatorDataset.add(movieShowtime.getOnShow().getMovie().getCastingShort().getActors());
-                   i++;
-               }
-
-                mRecyclerView = (RecyclerView) findViewById(R.id.main_recycler_view);
-
-                // use this setting to improve performance if you know that changes
-                // in content do not change the layout size of the RecyclerView
-                mRecyclerView.setHasFixedSize(true);
-
-                mAdapter = new MovieAdapter(myDataset, myRealisatorDataset);
-
-                // use a linear layout manager
-                mLayoutManager = new LinearLayoutManager(MainActivity.this);
-                mRecyclerView.setLayoutManager(mLayoutManager);
-                mRecyclerView.setAdapter(mAdapter);
-
-                }
             @Override
             public void onFailure(Call<InitialObject> call, Throwable t) {
-                myDataset.set(0, "probleme");
+                Toast.makeText(MainActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
 
+    }
+
+    private void generateMoviesList(List<MovieShowtime> moviesData) {
+        mRecyclerView = (RecyclerView) findViewById(R.id.main_recycler_view);
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
+
+        mAdapter = new MovieAdapter(moviesData);
+
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(MainActivity.this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     public void launchDetailsActivity(View view) {
