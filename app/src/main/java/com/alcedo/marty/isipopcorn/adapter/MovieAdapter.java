@@ -10,11 +10,14 @@ import android.widget.TextView;
 
 import com.alcedo.marty.isipopcorn.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import androidx.recyclerview.widget.RecyclerView;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
-    private String[] mDataset;
-    private String[] mRealisatorDataset;
+    protected ArrayList<String> mDataset;
+    protected ArrayList<String> mRealisatorDataset;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -34,12 +37,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MovieAdapter(String[] myDataset, String[] myRealisatorDataset) {
+    public MovieAdapter(ArrayList<String> myDataset, ArrayList<String> myRealisatorDataset) {
         mDataset = myDataset;
         mRealisatorDataset = myRealisatorDataset;
     }
 
-    public void setmDataset(String[] mDataset) {
+    public void setmDataset(ArrayList<String> mDataset) {
         this.mDataset = mDataset;
         notifyDataSetChanged();
     }
@@ -60,13 +63,13 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     public void onBindViewHolder(MovieViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.mTitleTextView.setText(mDataset[position]);
-        holder.mRealisatorTextView.setText(mRealisatorDataset[position]);
+        holder.mTitleTextView.setText(mDataset.get(position));
+        holder.mRealisatorTextView.setText(mRealisatorDataset.get(position));
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return mDataset.size();
     }
 }
