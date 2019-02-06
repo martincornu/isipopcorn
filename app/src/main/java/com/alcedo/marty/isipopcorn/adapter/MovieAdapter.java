@@ -26,13 +26,15 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     public static class MovieViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public TextView mTitleTextView;
-        public TextView mRealisatorTextView;
+        public TextView mDurationTextView;
+        public TextView mCategoryTextView;
         public ImageView mMovieImageView;
 
         public MovieViewHolder(View itemView) {
             super(itemView);
             mTitleTextView = itemView.findViewById(R.id.movie_title);
-            mRealisatorTextView = itemView.findViewById(R.id.movie_realisator);
+            mDurationTextView = itemView.findViewById(R.id.movie_duration);
+            mCategoryTextView = itemView.findViewById(R.id.movie_category);
             mMovieImageView = itemView.findViewById(R.id.movie_image);
         }
     }
@@ -64,7 +66,13 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         holder.mTitleTextView.setText(mMovies.get(position).getOnShow().getMovie().getTitle());
-        holder.mRealisatorTextView.setText(mMovies.get(position).getOnShow().getMovie().getCastingShort().getDirectors());
+
+        Integer totalSecs = mMovies.get(position).getOnShow().getMovie().getRuntime();
+        Integer hours = totalSecs / 3600;
+        Integer minutes = (totalSecs % 3600) / 60;
+        holder.mDurationTextView.setText(hours + "h" + minutes);
+
+        holder.mCategoryTextView.setText(mMovies.get(position).getOnShow().getMovie().getGenre().get(0).getName());
     }
 
     // Return the size of your dataset (invoked by the layout manager)

@@ -29,9 +29,6 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
-    protected ArrayList<String> myDataset = new ArrayList<String>();
-    protected ArrayList<String> myRealisatorDataset = new ArrayList<String>();
-
     protected MoviesList movies = new MoviesList();
 
     @Override

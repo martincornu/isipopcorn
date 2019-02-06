@@ -5,10 +5,10 @@
 
     <ImageView
         android:id="@+id/movie_image"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="131dp"
+        android:layout_height="124dp"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:adjustViewBounds="false"
         app:srcCompat="@drawable/creed2" />
 
@@ -17,8 +17,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginLeft="14dp"
         android:layout_marginTop="10dp"
         android:layout_toEndOf="@+id/movie_image"
         android:layout_toRightOf="@+id/movie_image"
@@ -27,14 +27,96 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/movie_realisator"
+    android:id="@+id/movie_duration"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/movie_title"
+    android:layout_marginStart="14dp"
+    android:layout_marginLeft="20dp"
+    android:layout_marginTop="10dp"
+    android:layout_toEndOf="@+id/movie_image"
+    android:layout_toRightOf="@+id/movie_image"
+    android:text="TextView" />
+
+    <TextView
+        android:id="@+id/vertical_barre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/movie_title"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/movie_duration"
+        android:layout_toRightOf="@+id/movie_duration"
+        android:text="|" />
+
+    <TextView
+        android:id="@+id/movie_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/movie_title"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/vertical_barre"
+        android:layout_toRightOf="@+id/vertical_barre"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/press"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/movie_duration"
         android:layout_marginStart="14dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"
         android:layout_toEndOf="@+id/movie_image"
         android:layout_toRightOf="@+id/movie_image"
-        android:text="TextView" />
+        android:text="Press" />
+
+    <TextView
+        android:id="@+id/spect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/press"
+        android:layout_marginStart="14dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/movie_image"
+        android:layout_toRightOf="@+id/movie_image"
+        android:text="Spect" />
+
+
+
+    <RatingBar
+        android:id="@+id/pressRatingBar"
+        style="@android:style/Widget.DeviceDefault.Light.RatingBar.Small"
+        android:layout_width="80dp"
+        android:layout_height="16dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="1dp"
+        android:layout_toEndOf="@+id/press"
+        android:layout_toRightOf="@+id/press"
+        android:layout_alignBottom="@id/press"
+        android:numStars="5"
+        android:rating="3" />
+
+    <RatingBar
+        android:id="@+id/spectRatingBar"
+        style="@android:style/Widget.DeviceDefault.Light.RatingBar.Small"
+        android:layout_width="80dp"
+        android:layout_height="16dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="1dp"
+        android:layout_toEndOf="@+id/spect"
+        android:layout_toRightOf="@+id/spect"
+        android:layout_alignBottom="@id/spect"
+        android:numStars="5"
+        android:rating="3" />
+
+
 </RelativeLayout>
