@@ -26,7 +26,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private MovieAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
     protected MoviesList movies = new MoviesList();
@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
 
         /*Call the method in the interface to get the movies data*/
         Call<InitialObject> call = jsonPlaceHolderApi.getInitialObject();
+
+        mAdapter = new MovieAdapter();
 
         call.enqueue(new Callback<InitialObject>() {
 
@@ -65,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         // in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
 
-        mAdapter = new MovieAdapter(moviesData);
+        mAdapter.setmMovies(moviesData);
 
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(MainActivity.this);

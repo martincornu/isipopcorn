@@ -2,12 +2,15 @@ package com.alcedo.marty.isipopcorn.adapter;
 
 import android.content.res.Resources;
 import android.graphics.Movie;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.alcedo.marty.isipopcorn.MainActivity;
 import com.alcedo.marty.isipopcorn.MovieShowtime;
 import com.alcedo.marty.isipopcorn.R;
 
@@ -42,6 +45,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     // Provide a suitable constructor (depends on the kind of dataset)
     public MovieAdapter(List<MovieShowtime> moviesDataList) {
         mMovies = moviesDataList;
+    }
+
+    public MovieAdapter() {
+        mMovies = null;
     }
 
     public void setmMovies(List<MovieShowtime> mMovies) {
