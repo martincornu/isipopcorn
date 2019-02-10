@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +33,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         public TextView mDurationTextView;
         public TextView mCategoryTextView;
         public ImageView mMovieImageView;
+        public RatingBar mPressRB;
+        public RatingBar mSpectRB;
 
         public MovieViewHolder(View itemView) {
             super(itemView);
@@ -39,6 +42,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             mDurationTextView = itemView.findViewById(R.id.movie_duration);
             mCategoryTextView = itemView.findViewById(R.id.movie_category);
             mMovieImageView = itemView.findViewById(R.id.movie_image);
+            mPressRB = itemView.findViewById(R.id.pressRatingBar);
+            mSpectRB = itemView.findViewById(R.id.spectRatingBar);
         }
     }
 
@@ -80,6 +85,16 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         holder.mDurationTextView.setText(hours + "h" + minutes);
 
         holder.mCategoryTextView.setText(mMovies.get(position).getOnShow().getMovie().getGenre().get(0).getName());
+
+        if (mMovies.get(position).getOnShow().getMovie().getStatistics().getPressRating() != null)
+            holder.mPressRB.setRating(mMovies.get(position).getOnShow().getMovie().getStatistics().getPressRating().floatValue());
+        else
+            holder.mPressRB.setRating(0);
+
+        if (mMovies.get(position).getOnShow().getMovie().getStatistics().getUserRating() != null)
+            holder.mSpectRB.setRating(mMovies.get(position).getOnShow().getMovie().getStatistics().getUserRating().floatValue());
+        else
+            holder.mSpectRB.setRating(0);
     }
 
     // Return the size of your dataset (invoked by the layout manager)
