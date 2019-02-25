@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.alcedo.marty.isipopcorn.MainActivity;
 import com.alcedo.marty.isipopcorn.MovieShowtime;
 import com.alcedo.marty.isipopcorn.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,6 +109,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             holder.mSpectRB.setRating(mMovies.get(position).getOnShow().getMovie().getStatistics().getUserRating().floatValue());
         else
             holder.mSpectRB.setRating(0);
+
+        Picasso.get()
+                .load(mMovies.get(position).getOnShow().getMovie().getPoster().getHref())
+                .into(holder.mMovieImageView);
     }
 
     // Return the size of your dataset (invoked by the layout manager)

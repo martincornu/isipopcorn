@@ -6,11 +6,17 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 public class DetailsActivity extends AppCompatActivity {
-
-    Movie mMovie;
+    public Movie mMovie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +33,21 @@ public class DetailsActivity extends AppCompatActivity {
         Intent i = getIntent();
         MovieShowtime movieShowTime = (MovieShowtime)i.getSerializableExtra("movie_object");
         mMovie = movieShowTime.getOnShow().getMovie();
+        this.setTitle(mMovie.getTitle());
         Toast.makeText(DetailsActivity.this, mMovie.getTitle(), Toast.LENGTH_SHORT).show();
+
+        String frameVideo = "<html><body><iframe width=\"420\" height=\"315\" src=\"https://www.youtube.com/embed/47yJ2XCRLZs\" frameborder=\"0\" allowfullscreen></iframe></body></html>";
+
+        WebView displayYoutubeVideo = (WebView) findViewById(R.id.webView);
+        displayYoutubeVideo.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                return false;
+            }
+        });
+        WebSettings webSettings = displayYoutubeVideo.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        displayYoutubeVideo.loadData(frameVideo, "text/html", "utf-8");
     }
 
     //Go back
