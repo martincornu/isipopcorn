@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,7 +38,12 @@ public class DetailsActivity extends AppCompatActivity {
         this.setTitle(mMovie.getTitle());
         Toast.makeText(DetailsActivity.this, mMovie.getTitle(), Toast.LENGTH_SHORT).show();
 
-        String frameVideo = "<html><body><iframe width=\"420\" height=\"315\" src=\"https://www.youtube.com/embed/47yJ2XCRLZs\" frameborder=\"0\" allowfullscreen></iframe></body></html>";
+        if (mMovie.getTrailer() == null) {
+            return;
+        }
+
+        String link = mMovie.getTrailer().getHref().replace("watch?v=", "embed/");
+        String frameVideo = "<html><body><iframe width=\"100%\" height=\"100%\" src=\"" + link + "\" frameborder=\"0\" allowfullscreen></iframe></body></html>";
 
         WebView displayYoutubeVideo = (WebView) findViewById(R.id.webView);
         displayYoutubeVideo.setWebViewClient(new WebViewClient() {
@@ -45,6 +52,7 @@ public class DetailsActivity extends AppCompatActivity {
                 return false;
             }
         });
+        displayYoutubeVideo.setWebChromeClient(new MyChrome());
         WebSettings webSettings = displayYoutubeVideo.getSettings();
         webSettings.setJavaScriptEnabled(true);
         displayYoutubeVideo.loadData(frameVideo, "text/html", "utf-8");
@@ -59,5 +67,71 @@ public class DetailsActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    //Use to enable full screen mode for trailer's web view
+    class Browser_home extends WebViewClient {
+
+        Browser_home() {
+        }
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            super.onPageStarted(view, url, favicon);
+
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            setTitle(view.getTitle());
+            super.onPageFinished(view, url);
+
+        }
+    }
+
+    //Use to enable full screen mode for trailer's web view
+    private class MyChrome extends WebChromeClient {
+
+        private View mCustomView;
+        private WebChromeClient.CustomViewCallback mCustomViewCallback;
+        protected FrameLayout mFullscreenContainer;
+        private int mOriginalOrientation;
+        private int mOriginalSystemUiVisibility;
+
+        MyChrome() {}
+
+        public Bitmap getDefaultVideoPoster()
+        {
+            if (mCustomView == null) {
+                return null;
+            }
+            return BitmapFactory.decodeResource(getApplicationContext().getResources(), 2130837573);
+        }
+
+        public void onHideCustomView()
+        {
+            ((FrameLayout)getWindow().getDecorView()).removeView(this.mCustomView);
+            this.mCustomView = null;
+            getWindow().getDecorView().setSystemUiVisibility(this.mOriginalSystemUiVisibility);
+            setRequestedOrientation(this.mOriginalOrientation);
+            this.mCustomViewCallback.onCustomViewHidden();
+            this.mCustomViewCallback = null;
+        }
+
+        public void onShowCustomView(View paramView, WebChromeClient.CustomViewCallback paramCustomViewCallback)
+        {
+            if (this.mCustomView != null)
+            {
+                onHideCustomView();
+                return;
+            }
+            this.mCustomView = paramView;
+            this.mOriginalSystemUiVisibility = getWindow().getDecorView().getSystemUiVisibility();
+            this.mOriginalOrientation = getRequestedOrientation();
+            this.mCustomViewCallback = paramCustomViewCallback;
+            ((FrameLayout)getWindow().getDecorView()).addView(this.mCustomView, new FrameLayout.LayoutParams(-1, -1));
+            getWindow().getDecorView().setSystemUiVisibility(3846);
+        }
     }
 }
