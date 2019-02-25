@@ -24,7 +24,7 @@ import com.alcedo.marty.isipopcorn.network.RetrofitInstance;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMovieListener {
     private RecyclerView mRecyclerView;
     private MovieAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         /*Call the method in the interface to get the movies data*/
         Call<InitialObject> call = jsonPlaceHolderApi.getInitialObject();
 
-        mAdapter = new MovieAdapter();
+        mAdapter = new MovieAdapter(null, this);
 
         call.enqueue(new Callback<InitialObject>() {
 
@@ -75,8 +75,10 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    public void launchDetailsActivity(View view) {
+    @Override
+    public void onMovieClick(int position) {
         Intent intent = new Intent(this, DetailsActivity.class);
+        intent.putExtra("movie_object", movies.getMoviesList().get(position));
         startActivity(intent);
     }
 }

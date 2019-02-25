@@ -1,11 +1,12 @@
 
 package com.alcedo.marty.isipopcorn;
 
+import java.io.Serializable;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Scr {
+public class Scr implements Serializable {
 
     @SerializedName("d")
     @Expose

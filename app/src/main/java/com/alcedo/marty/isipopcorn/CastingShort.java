@@ -4,7 +4,9 @@ package com.alcedo.marty.isipopcorn;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class CastingShort {
+import java.io.Serializable;
+
+public class CastingShort implements Serializable {
 
     @SerializedName("directors")
     @Expose

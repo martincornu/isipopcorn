@@ -4,7 +4,9 @@ package com.alcedo.marty.isipopcorn;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class T {
+import java.io.Serializable;
+
+public class T implements Serializable {
 
     @SerializedName("code")
     @Expose

@@ -4,7 +4,9 @@ package com.alcedo.marty.isipopcorn;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Poster {
+import java.io.Serializable;
+
+public class Poster implements Serializable {
 
     @SerializedName("path")
     @Expose

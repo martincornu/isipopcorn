@@ -4,7 +4,9 @@ package com.alcedo.marty.isipopcorn;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ScreenFormat {
+import java.io.Serializable;
+
+public class ScreenFormat implements Serializable {
 
     @SerializedName("code")
     @Expose

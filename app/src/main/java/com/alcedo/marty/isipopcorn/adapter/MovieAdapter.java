@@ -22,12 +22,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
+    private OnMovieListener mOnMovieListener;
+
     protected List<MovieShowtime> mMovies;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
-    public static class MovieViewHolder extends RecyclerView.ViewHolder {
+    public static class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        OnMovieListener onMovieListener;
+
         // each data item is just a string in this case
         public TextView mTitleTextView;
         public TextView mDurationTextView;
@@ -36,7 +40,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         public RatingBar mPressRB;
         public RatingBar mSpectRB;
 
-        public MovieViewHolder(View itemView) {
+        public MovieViewHolder(View itemView, OnMovieListener onMovieListener) {
             super(itemView);
             mTitleTextView = itemView.findViewById(R.id.movie_title);
             mDurationTextView = itemView.findViewById(R.id.movie_duration);
@@ -44,12 +48,21 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             mMovieImageView = itemView.findViewById(R.id.movie_image);
             mPressRB = itemView.findViewById(R.id.pressRatingBar);
             mSpectRB = itemView.findViewById(R.id.spectRatingBar);
+
+            this.onMovieListener = onMovieListener;
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            onMovieListener.onMovieClick(getAdapterPosition());
         }
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MovieAdapter(List<MovieShowtime> moviesDataList) {
+    public MovieAdapter(List<MovieShowtime> moviesDataList, OnMovieListener onMovieListener) {
         mMovies = moviesDataList;
+        mOnMovieListener = onMovieListener;
     }
 
     public MovieAdapter() {
@@ -68,7 +81,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         // create a new view
         View v = (View) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.movie_row_item, parent, false);
-        MovieViewHolder vh = new MovieViewHolder(v);
+        MovieViewHolder vh = new MovieViewHolder(v, mOnMovieListener);
         return vh;
     }
 
@@ -101,5 +114,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     @Override
     public int getItemCount() {
         return mMovies.size();
+    }
+
+    public interface OnMovieListener {
+        void onMovieClick(int position);
     }
 }
