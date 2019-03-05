@@ -14,11 +14,13 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class DetailsActivity extends AppCompatActivity {
-    public Movie mMovie;
+    public MovieShowtime mMovieShowTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,15 +36,18 @@ public class DetailsActivity extends AppCompatActivity {
         // To retrieve object
         Intent i = getIntent();
         MovieShowtime movieShowTime = (MovieShowtime)i.getSerializableExtra("movie_object");
-        mMovie = movieShowTime.getOnShow().getMovie();
-        this.setTitle(mMovie.getTitle());
-        Toast.makeText(DetailsActivity.this, mMovie.getTitle(), Toast.LENGTH_SHORT).show();
+        mMovieShowTime = movieShowTime;
+        this.setTitle(mMovieShowTime.getOnShow().getMovie().getTitle());
+        Toast.makeText(DetailsActivity.this, mMovieShowTime.getOnShow().getMovie().getTitle(), Toast.LENGTH_SHORT).show();
 
-        if (mMovie.getTrailer() == null) {
+        if (mMovieShowTime.getOnShow().getMovie().getTrailer() == null) {
             return;
         }
 
-        String link = mMovie.getTrailer().getHref().replace("watch?v=", "embed/");
+        //Set UI values
+        setUIValues();
+
+        String link = mMovieShowTime.getOnShow().getMovie().getTrailer().getHref().replace("watch?v=", "embed/");
         String frameVideo = "<html><body><iframe width=\"100%\" height=\"100%\" src=\"" + link + "\" frameborder=\"0\" allowfullscreen></iframe></body></html>";
 
         WebView displayYoutubeVideo = (WebView) findViewById(R.id.webView);
@@ -56,6 +61,21 @@ public class DetailsActivity extends AppCompatActivity {
         WebSettings webSettings = displayYoutubeVideo.getSettings();
         webSettings.setJavaScriptEnabled(true);
         displayYoutubeVideo.loadData(frameVideo, "text/html", "utf-8");
+    }
+
+    //Set UI Values
+    public void setUIValues() {
+        TextView details_duration = (TextView) findViewById(R.id.details_duration);
+        TextView details_category = (TextView) findViewById(R.id.details_category);
+        TextView details_country = (TextView) findViewById(R.id.details_country);
+
+        Integer totalSecs = this.mMovieShowTime.getOnShow().getMovie().getRuntime();
+        Integer hours = totalSecs / 3600;
+        Integer minutes = (totalSecs % 3600) / 60;
+        details_duration.setText(hours + "h" + minutes);
+
+        details_category.setText(this.mMovieShowTime.getOnShow().getMovie().getGenre().get(0).getName());
+        details_country.setText(this.mMovieShowTime.getVersion().getName());
     }
 
     //Go back
